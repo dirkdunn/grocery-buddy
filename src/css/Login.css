@@ -1,0 +1,21 @@
+html {
+  font-size: 16px;
+}
+
+.registration-page {
+  text-align:center;
+  margin-top: 2em;
+}
+
+.registration-page  input {
+  display: block;
+  margin: .5em auto;
+}
+
+.login-icon {
+  font-size: 4em;
+}
+
+.descriptor {
+  padding-top:2.5em;
+}
