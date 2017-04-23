@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import GroceryList from './components/GroceryList';
 import SearchBar from './components/SearchBar';
 import firebase from './firebase'
+import Loading from './components/Loading';
 import axios from 'axios';
 import parseXML from 'xml-parse-from-string';
 import './css/App.css';
@@ -21,9 +22,15 @@ class App extends Component {
     this.state = {
       title: 'Firebase Grocery List',
       items: [],
-      uid: ''
+      uid: '',
+      loading: false
     }
   }
+
+  loadToggle(){
+    this.setState({ loading: !this.state.loading })
+  }
+
 
   componentDidMount(){
     this.getDatabaseItems()
@@ -98,6 +105,7 @@ class App extends Component {
 
   addItem(item){
     const items = this.state.items;
+    this.loadToggle();
 
     this.getItemImage(item, response => {
       if(response){
@@ -119,8 +127,11 @@ class App extends Component {
             imageUrl: this.getFlickrImage(farmid,serverid,id,secret)
         });
 
+        this.loadToggle();
         this.setState({ items });
         this.persistItems();
+      } else {
+        this.loadToggle();
       }
     })
 
@@ -154,6 +165,7 @@ class App extends Component {
   render() {
     return (
       <div className="container">
+        <Loading show={this.state.loading} />
         <div className="row">
         <div className="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
           <h1>{this.state.title}</h1>

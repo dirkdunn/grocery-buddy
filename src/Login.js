@@ -3,6 +3,7 @@ import { Redirect, Route } from 'react-router';
 import _ from 'lodash';
 import firebase from './firebase';
 import App from './App';
+import Loading from './components/Loading';
 import './css/Login.css';
 import './css/fa/css/font-awesome.css';
 
@@ -23,7 +24,8 @@ class Login extends Component {
       },
       errorMessage: '',
       showSignup: this.hasAnAccount ? false : true,
-      redirect: false
+      redirect: false,
+      loading:false
     }
   }
 
@@ -31,21 +33,28 @@ class Login extends Component {
     this.setState({ redirect: true })
   }
 
+  loadToggle(){
+    this.setState({ loading: !this.state.loading })
+  }
+
   signup(e){
     e.preventDefault();
     var email = this.state.signup.email;
-    var password = this.state.signup.password;
+    var password = this.state.signup.password
+    this.loadToggle();
 
     firebase.auth()
       .createUserWithEmailAndPassword(email, password)
       .then(user => {
         console.log('user is: ', user);
         localStorage.setItem('user',JSON.stringify(user));
+        this.loadToggle();
         this.redirectToGroceryList()
       })
       .catch(error => {
          console.log(error.code);
          console.log(error.message);
+         this.loadToggle();
          this.setState({
            errorMessage: error.message
          })
@@ -57,6 +66,7 @@ class Login extends Component {
     var email = this.state.showSignup ? this.state.signup.email : this.state.login.email;
     var password = this.state.showSignup ? this.state.signup.password : this.state.login.password;
 
+    this.loadToggle();
     console.log(email,password)
 
     firebase.auth()
@@ -64,11 +74,13 @@ class Login extends Component {
       .then(user => {
         console.log('user is: ', user);
         localStorage.setItem('user',JSON.stringify(user));
+        this.loadToggle();
         this.redirectToGroceryList()
       })
       .catch(error => {
          console.log(error.code);
          console.log(error.message);
+         this.loadToggle();
          this.setState({
            errorMessage: error.message
          })
@@ -96,8 +108,9 @@ class Login extends Component {
     }
 
     return (
-      <div className="container registration-page">
 
+      <div className="container registration-page">
+        <Loading show={this.state.loading}/>
         <div className="row registration-section">
         <div className="col-xs-10 col-xs-offset-1 col-sm-5 col-sm-offset-1 descriptor">
           <i className="fa fa-cutlery login-icon" aria-hidden="true"></i>
