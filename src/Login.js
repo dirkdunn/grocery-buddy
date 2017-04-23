@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { Redirect, Route } from 'react-router';
+import _ from 'lodash';
 import firebase from './firebase';
 import App from './App';
 import './css/Login.css';
@@ -77,27 +78,18 @@ class Login extends Component {
   handleRedirection(){
       const uid = JSON.parse(localStorage.getItem('user')).uid;
       localStorage.setItem('uid_compare', uid);
-      console.log('function hit')
-
       return(<Redirect test="test" to="/grocerylist" />)
   }
 
-  componentWillUpdate(nextProps,nextState){
-    // console.log(nextState);
-    if(this.errorReset){
-      clearTimeout(this.errorReset);
-    }
 
-    if(nextState.errorMessage !== ''){
-      this.errorReset = setTimeout(()=>{
-        this.setState({ errorMessage: '' })
-      },5000);
-    }
-
+  clearError(e){
+    // console.log('clear');
+    this.setState({ errorMessage: '' })
   }
 
   render(){
     const userIsLoggedIn = (localStorage.getItem('user') && localStorage.getItem('uid_compare'));
+    const clearError = _.debounce(this.clearError.bind(this),300);
 
     if( this.state.redirect || userIsLoggedIn ){
       return this.handleRedirection();
@@ -121,18 +113,24 @@ class Login extends Component {
               placeholder="email"
               value={this.state.email}
               className="form-control"
-              onChange={e => this.setState({
-                signup: { email : e.target.value, password: this.state.signup.password}
-              })} />
+              onChange={e => {
+                this.setState({
+                  signup: { email : e.target.value, password: this.state.signup.password}
+                });
+                clearError();
+              }} />
 
               <input
               type="password"
               placeholder="password"
               value={this.state.password}
               className="form-control"
-              onChange={e => this.setState({
-                signup: { email : this.state.signup.email, password: e.target.value}
-              })} />
+              onChange={e => {
+                this.setState({
+                  signup: { email : this.state.signup.email, password: e.target.value}
+                })
+                clearError();
+              }} />
               <button type="submit" className="btn btn-primary">Sign Up</button>
             </form>
 
@@ -142,18 +140,24 @@ class Login extends Component {
               placeholder="email"
               value={this.state.login.email}
               className="form-control"
-              onChange={e => this.setState({
-                login: { email : e.target.value, password: this.state.login.password}
-              })} />
+              onChange={e => {
+                this.setState({
+                  login: { email : e.target.value, password: this.state.login.password}
+                })
+                clearError();
+              }} />
 
               <input
               type="password"
               placeholder="password"
               value={this.state.login.password}
               className="form-control"
-              onChange={e => this.setState({
-                login: { email : this.state.login.email, password: e.target.value}
-              })} />
+              onChange={e => {
+                this.setState({
+                  login: { email : this.state.login.email, password: e.target.value}
+                })
+                clearError();
+              }} />
               <button type="submit" className="btn btn-primary">Login</button>
             </form>
             </div>
