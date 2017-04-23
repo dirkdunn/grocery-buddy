@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
 import GroceryItem from './GroceryItem';
+import '../css/fa/css/font-awesome.css';
+
 
 class GroceryList extends Component {
   render(){
@@ -14,11 +16,12 @@ class GroceryList extends Component {
 
     return (
       <div className="table-responsive">
+
         <table className="list-group grocery-list table">
           <thead>
             <tr>
+              <th></th>
               <th>Item</th>
-              <th>Name</th>
               <th>Options</th>
             </tr>
           </thead>
