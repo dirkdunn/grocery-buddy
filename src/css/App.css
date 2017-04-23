@@ -49,6 +49,10 @@ body {
   overflow: auto;
 }
 
+.add-item {
+  margin-left:1em;
+}
+
 @media (max-width: 400px){
   .list-group .list-group-item .buttons i {
     font-size:2.5em;

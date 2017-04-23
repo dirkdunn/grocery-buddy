@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 import ReactDOM from 'react-dom';
 import App from './App';
 import Login from './Login';
-import './index.css';
+import './css/index.css';
 
 ReactDOM.render(
   <Router>

@@ -3,14 +3,20 @@ import GroceryList from './components/GroceryList';
 import SearchBar from './components/SearchBar';
 import firebase from './firebase'
 import axios from 'axios';
+import parseXML from 'xml-parse-from-string';
 import './css/App.css';
 import './css/fa/css/font-awesome.css';
+
+/*
+Key: bac481b3714f9e9f3812760b07a97184
+Secret: 2b61260c888893d6
+*/
 
 class App extends Component {
   constructor(props){
     super(props)
     this.ref = firebase.database().ref('/'+ localStorage.getItem('uid_compare'));
-    this.pixabayUrl = 'https://pixabay.com/api/';
+    this.flickrURL = 'https://api.flickr.com/services/rest/';
 
     this.state = {
       title: 'Firebase Grocery List',
@@ -45,14 +51,18 @@ class App extends Component {
 
   getItemImage(query,callback){
     console.log('query: ',query)
-    axios.get(this.pixabayUrl,{
+    axios.get(this.flickrURL,{
       params: {
-        key: '5150964-f7ec518ccbab158776052cbf6',
-        category: 'food',
-        q: query
+        method: 'flickr.photos.search',
+        api_key: 'bac481b3714f9e9f3812760b07a97184',
+        text: query,
+        tags: 'food',
+        safe_search: 1,
+        media: 'photos',
+        sort: 'relevance'
       }
     }).then(response => {
-      callback(response);
+      callback(response.data);
     }).catch(error => {
       console.error(error);
       callback(false);
@@ -63,7 +73,7 @@ class App extends Component {
     this.ref.on('value',(snapshot)=>{
       const db = snapshot.val();
       // console.log('snapshot: ', snapshot.val());
-    
+
       if(db != null){
         let items = db.items;
         console.log('items: ', items)
@@ -80,21 +90,31 @@ class App extends Component {
     this.ref.set({items: this.state.items});
   }
 
+  getFlickrImage(farmid,serverid,id,secret){
+    return `https://farm${farmid}.staticflickr.com/${serverid}/${id}_${secret}_s.jpg`
+  }
+
   addItem(item){
     const items = this.state.items;
 
     this.getItemImage(item, response => {
       if(response){
         console.log('response: ',response);
+        let randRange = parseXML(response).getElementsByTagName('photo').length / 2;
+        let randomImage = Math.floor(Math.random() * 1);
 
-        let randomImage = Math.floor(Math.random() * 5);
+        let photo = parseXML(response).getElementsByTagName('photo')[0];
+        let farmid = photo.getAttribute('farm');
+        let serverid = photo.getAttribute('server');
+        let id = photo.getAttribute('id');
+        let secret = photo.getAttribute('secret');
 
-        console.log('randomImage',randomImage);
+        console.log('flickrImage:', this.getFlickrImage(farmid,serverid,id,secret))
 
         items.unshift({
             description: item,
             key: Date.now(),
-            imageUrl: response.data.hits[randomImage].previewURL
+            imageUrl: this.getFlickrImage(farmid,serverid,id,secret)
         });
 
         this.setState({ items });
@@ -133,13 +153,16 @@ class App extends Component {
     return (
       <div className="container">
         <div className="row">
+        <div className="col-xs-12 col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
           <h1>{this.state.title}</h1>
           <SearchBar addItem={this.addItem.bind(this)}/>
+          </div>
         </div>
         <div className="row">
+
           <div className="col-md-6 col-md-offset-3">
             <GroceryList items={this.state.items} removeItem={this.removeItem.bind(this)}/>
-            <button onClick={this.signOut}>Signout</button>
+            <button className="btn btn-primary" onClick={this.signOut}>Signout</button>
           </div>
         </div>
       </div>

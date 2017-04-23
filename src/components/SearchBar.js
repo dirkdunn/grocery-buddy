@@ -17,16 +17,18 @@ class SearchBar extends Component {
   render(){
 
     return (
-      <form onSubmit={this.addToList.bind(this)} className="grocery-search">
+      <div className="form-group ">
+      <form onSubmit={this.addToList.bind(this)} className="grocery-search form-inline">
         <input
           onChange={ e => this.setState({ search: e.target.value }) }
-          className="grocery-input"
+          className="grocery-input form-control"
           type="text"
           name="query"
           placeholder="Add a grocery Item"
           value={this.state.search }/>
-        <input type="submit" value="Add" />
+        <button type="submit" value="Add" className="btn btn-primary add-item">Add Item</button>
       </form>
+      </div>
     )
   }
 }
