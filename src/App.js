@@ -42,6 +42,8 @@ class App extends Component {
 
     if(uidNotInStorage || uidFind !== user.uid){
       window.location.replace('/');
+    } else {
+      localStorage.setItem('loginToken', true);
     }
   }
 

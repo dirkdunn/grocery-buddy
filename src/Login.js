@@ -8,6 +8,7 @@ import './css/fa/css/font-awesome.css';
 class Login extends Component {
   constructor(props){
     super(props)
+    this.hasAnAccount = localStorage.getItem('loginToken');
 
     this.state = {
       signup: {
@@ -19,7 +20,7 @@ class Login extends Component {
         password: ''
       },
       errorMessage: '',
-      showSignup: true,
+      showSignup: this.hasAnAccount ? false : true,
       redirect: false
     }
   }
@@ -72,16 +73,19 @@ class Login extends Component {
       });
   }
 
-  render(){
-
-    if( this.state.redirect || (localStorage.getItem('user') && localStorage.getItem('uid_compare')) ){
+  handleRedirection(){
       const uid = JSON.parse(localStorage.getItem('user')).uid;
       localStorage.setItem('uid_compare', uid);
-      return(
-        <Redirect test="test" to={{
-          pathname: '/grocerylist'
-        }} />
-      )
+      console.log('function hit')
+
+      return(<Redirect test="test" to="/grocerylist" />)
+  }
+
+  render(){
+    const userIsLoggedIn = (localStorage.getItem('user') && localStorage.getItem('uid_compare'));
+
+    if( this.state.redirect || userIsLoggedIn ){
+      return this.handleRedirection();
     }
 
     return (
