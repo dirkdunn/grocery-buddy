@@ -9,6 +9,7 @@ class Login extends Component {
   constructor(props){
     super(props)
     this.hasAnAccount = localStorage.getItem('loginToken');
+    this.errorReset;
 
     this.state = {
       signup: {
@@ -81,6 +82,20 @@ class Login extends Component {
       return(<Redirect test="test" to="/grocerylist" />)
   }
 
+  componentWillUpdate(nextProps,nextState){
+    // console.log(nextState);
+    if(this.errorReset){
+      clearTimeout(this.errorReset);
+    }
+
+    if(nextState.errorMessage !== ''){
+      this.errorReset = setTimeout(()=>{
+        this.setState({ errorMessage: '' })
+      },5000);
+    }
+
+  }
+
   render(){
     const userIsLoggedIn = (localStorage.getItem('user') && localStorage.getItem('uid_compare'));
 
@@ -144,6 +159,7 @@ class Login extends Component {
             </div>
 
             <p className="error">{this.state.errorMessage}</p>
+
             <p>{ this.state.showSignup ? 'Already have an account?' : 'Don\'t have an account?' }</p>
             <button
               onClick={e => this.setState({ showSignup: !this.state.showSignup})}
