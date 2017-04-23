@@ -74,7 +74,7 @@ class Login extends Component {
 
   render(){
 
-    if(this.state.redirect){
+    if( this.state.redirect || (localStorage.getItem('user') && localStorage.getItem('uid_compare')) ){
       const uid = JSON.parse(localStorage.getItem('user')).uid;
       localStorage.setItem('uid_compare', uid);
       return(
