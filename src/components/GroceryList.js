@@ -13,9 +13,20 @@ class GroceryList extends Component {
     })
 
     return (
-      <ul className="list-group grocery-list">
-        {groceryItems}
-      </ul>
+      <div className="table-responsive">
+        <table className="list-group grocery-list table">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Name</th>
+              <th>Options</th>
+            </tr>
+          </thead>
+          <tbody>
+            {groceryItems}
+          </tbody>
+        </table>
+      </div>
     )
   }
 }
