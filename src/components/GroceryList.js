@@ -1,11 +1,20 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 import GroceryItem from './GroceryItem';
+import getItems from '../actions/getItem';
 import '../css/fa/css/font-awesome.css';
 
 
 class GroceryList extends Component {
+
+  componentDidMount(){
+    this.props.getItems()
+  }
+
   render(){
-    const groceryItems = this.props.items.map((item)=>{
+    console.log('this.props.grocerylist',this.props.grocerylist)
+    const groceryItems = this.props.grocerylist.map((item)=>{
       // console.log(item);
       return (<GroceryItem key={item.key}
                 description={item.description}
@@ -16,7 +25,6 @@ class GroceryList extends Component {
 
     return (
       <div className="table-responsive">
-
         <table className="list-group grocery-list table">
           <thead>
             <tr>
@@ -34,4 +42,16 @@ class GroceryList extends Component {
   }
 }
 
-export default GroceryList;
+function mapStateToProps(state){
+  return {
+    grocerylist: state.grocerylist 
+  }
+}
+
+function mapDispatchToProps(dispatch){
+  return bindActionCreators({
+    getItems
+  },dispatch)
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(GroceryList)

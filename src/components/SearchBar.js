@@ -1,4 +1,7 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import addItem from '../actions/addItem';
 
 class SearchBar extends Component {
   constructor(props){
@@ -33,4 +36,10 @@ class SearchBar extends Component {
   }
 }
 
-export default SearchBar;
+function mapDispatchToProps(dispatch){
+  return bindActionCreators({
+    addItem: addItem
+  },dispatch);
+}
+
+export default connect(null, mapDispatchToProps)(SearchBar);
