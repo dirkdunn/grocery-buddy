@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import addItem from '../actions/addItem';
+import toggleLoader from '../actions/toggleLoader';
 
 class SearchBar extends Component {
   constructor(props){
@@ -13,6 +14,7 @@ class SearchBar extends Component {
 
   addToList(e){
     e.preventDefault();
+    this.props.toggleLoader();
     this.props.addItem(this.state.search);
     this.setState({search: ""});
   }
@@ -38,7 +40,8 @@ class SearchBar extends Component {
 
 function mapDispatchToProps(dispatch){
   return bindActionCreators({
-    addItem: addItem
+    addItem: addItem,
+    toggleLoader: toggleLoader
   },dispatch);
 }
 

@@ -2,26 +2,32 @@ import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import GroceryItem from './GroceryItem';
-import getItems from '../actions/getItem';
+import Loading from './Loading';
+import getItems from '../actions/getItems';
 import '../css/fa/css/font-awesome.css';
 
 
 class GroceryList extends Component {
 
-  componentDidMount(){
+  componentWillMount(){
     this.props.getItems()
   }
 
-  render(){
-    console.log('this.props.grocerylist',this.props.grocerylist)
-    const groceryItems = this.props.grocerylist.map((item)=>{
+  getGroceryItems(){
+    return this.props.items.map((item)=>{
       // console.log(item);
       return (<GroceryItem key={item.key}
                 description={item.description}
                 keyParam={item.key}
                 removeItem={this.props.removeItem}
                 imageUrl={item.imageUrl} />)
-    })
+    });
+  }
+
+  render(){
+
+    if(!this.props.items.length)
+      return (<Loading show={true}/>)
 
     return (
       <div className="table-responsive">
@@ -34,7 +40,7 @@ class GroceryList extends Component {
             </tr>
           </thead>
           <tbody>
-            {groceryItems}
+            { this.getGroceryItems() }
           </tbody>
         </table>
       </div>
@@ -44,7 +50,7 @@ class GroceryList extends Component {
 
 function mapStateToProps(state){
   return {
-    grocerylist: state.grocerylist 
+    items: state.user.items
   }
 }
 

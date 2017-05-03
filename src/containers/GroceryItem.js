@@ -1,4 +1,7 @@
 import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import removeItem from '../actions/removeItem';
 
 class GroceryItem extends Component {
   render(){
@@ -14,4 +17,10 @@ class GroceryItem extends Component {
   }
 }
 
-export default GroceryItem;
+function mapDispatchToProps(dispatch){
+  return bindActionCreators({
+    removeItem: removeItem
+  },dispatch)
+}
+
+export default connect(null,mapDispatchToProps)(GroceryItem);
