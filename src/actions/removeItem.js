@@ -10,14 +10,14 @@ export default function(key){
         console.log('db is: ', dbVal)
 
         if(dbVal){
+
           console.log('db is: ', dbVal.items, dbVal.items.filter(item => {
-            item.key != key
+            console.log('items.key ', item.key, 'key ', key, item.key != key)
+            return item.key != key
           }))
 
           ref.set({
-            items: dbVal.items.filter(item => {
-              item.key != key
-            })
+            items: dbVal.items.filter(item => item.key != key)
           })
 
         }
