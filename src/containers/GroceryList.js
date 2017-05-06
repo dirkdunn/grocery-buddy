@@ -22,9 +22,9 @@ class GroceryList extends Component {
 
     this.ref.on('value',(snapshot)=>{
       const db = snapshot.val();
-      // console.log('snapshot: ', snapshot.val());
+      // window.devlog('snapshot: ', snapshot.val());
       if(db != null){
-        console.log("THIS.ITEMS", this.items, db.items)
+        window.devlog("THIS.ITEMS", this.items, db.items)
         this.props.setItems(db.items);
       }
     });
@@ -32,7 +32,7 @@ class GroceryList extends Component {
 
   getGroceryItems(){
     return this.props.items.map((item)=>{
-      console.log(item);
+      window.devlog(item);
       return (<GroceryItem key={item.key}
                 description={item.description}
                 keyParam={item.key}

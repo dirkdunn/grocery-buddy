@@ -46,14 +46,14 @@ class Login extends Component {
     firebase.auth()
       .createUserWithEmailAndPassword(email, password)
       .then(user => {
-        console.log('user is: ', user);
+        window.devlog('user is: ', user);
         localStorage.setItem('user',JSON.stringify(user));
         this.loadToggle();
         this.redirectToGroceryList()
       })
       .catch(error => {
-         console.log(error.code);
-         console.log(error.message);
+         window.devlog(error.code);
+         window.devlog(error.message);
          this.loadToggle();
          this.setState({
            errorMessage: error.message
@@ -67,19 +67,19 @@ class Login extends Component {
     var password = this.state.showSignup ? this.state.signup.password : this.state.login.password;
 
     this.loadToggle();
-    console.log(email,password)
+    window.devlog(email,password)
 
     firebase.auth()
       .signInWithEmailAndPassword(email, password)
       .then(user => {
-        console.log('user is: ', user);
+        window.devlog('user is: ', user);
         localStorage.setItem('user',JSON.stringify(user));
         this.loadToggle();
         this.redirectToGroceryList()
       })
       .catch(error => {
-         console.log(error.code);
-         console.log(error.message);
+         window.devlog(error.code);
+         window.devlog(error.message);
          this.loadToggle();
          this.setState({
            errorMessage: error.message
@@ -95,7 +95,7 @@ class Login extends Component {
 
 
   clearError(e){
-    // console.log('clear');
+    // window.devlog('clear');
     this.setState({ errorMessage: '' })
   }
 

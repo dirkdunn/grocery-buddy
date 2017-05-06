@@ -7,12 +7,12 @@ export default function(key){
       ref.once('value', db => {
         const dbVal = db.val();
 
-        console.log('db is: ', dbVal)
+        window.devlog('db is: ', dbVal)
 
         if(dbVal){
 
-          console.log('db is: ', dbVal.items, dbVal.items.filter(item => {
-            console.log('items.key ', item.key, 'key ', key, item.key != key)
+          window.devlog('db is: ', dbVal.items, dbVal.items.filter(item => {
+            window.devlog('items.key ', item.key, 'key ', key, item.key != key)
             return item.key != key
           }))
 
