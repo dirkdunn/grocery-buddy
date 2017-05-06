@@ -3,6 +3,7 @@ import loader from '../images/spiral.svg';
 import '../css/App.css';
 
 const Loading = (props) => {
+  console.log('props.show: ', props.show)
   return (
     <div style={{
       display: props.show ? 'block' : 'none'

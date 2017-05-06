@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import GroceryList from './components/GroceryList';
-import SearchBar from './components/SearchBar';
+import GroceryList from './containers/GroceryList';
+import SearchBar from './containers/SearchBar';
 import firebase from './firebase'
 import Loading from './components/Loading';
 import {connect} from 'react-redux';
@@ -58,6 +58,7 @@ class App extends Component {
   }
 
   render() {
+    // console.log("LOADING: ", this.props.loading)
     return (
       <div className="container">
         <Loading show={this.props.loading} />

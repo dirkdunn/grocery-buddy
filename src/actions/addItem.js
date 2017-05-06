@@ -1,9 +1,9 @@
 import parseXML from 'xml-parse-from-string';
 import axios from 'axios';
-
+import firebase from '../firebase'
 
 function getItemImage(query, callback){
-  console.log('query: ',query)
+  // console.log('query: ',query)
   const flickrURL = 'https://api.flickr.com/services/rest/';
   axios.get(flickrURL,{
     params: {
@@ -27,7 +27,7 @@ function getFlickrImage(farmid,serverid,id,secret){
   return `https://farm${farmid}.staticflickr.com/${serverid}/${id}_${secret}_s.jpg`
 }
 
-function addItem(item){
+function addItem(item,key){
   return new Promise(function(resolve,reject){
     getItemImage(item, response => {
       if(response){
@@ -41,11 +41,11 @@ function addItem(item){
         let id = photo.getAttribute('id');
         let secret = photo.getAttribute('secret');
 
-        console.log('flickrImage:', getFlickrImage(farmid,serverid,id,secret))
+        // console.log('flickrImage:', getFlickrImage(farmid,serverid,id,secret))
 
         resolve({
             description: item,
-            key: Date.now(),
+            key: key,
             imageUrl: getFlickrImage(farmid,serverid,id,secret)
         })
 
@@ -57,13 +57,23 @@ function addItem(item){
 }
 
 
-export default function(query){
-  const addItemPromise = addItem(query);
+export default function(query,key){
+  const addItemPromise = addItem(query,key);
 
-  return {
-    type: 'ADD_ITEM',
-    payload: {
-      promise: addItemPromise
-    }
+  return dispatch => {
+    addItemPromise.then(item => {
+      const ref = firebase.database().ref('/'+ localStorage.getItem('uid_compare')+ '/items');
+      ref.once('value', db => {
+        let keyVal = db.val() ? db.val().length : 0;
+        // console.log('children', keyVal)
+
+        ref.child(keyVal).set(item)
+        dispatch({
+          type: 'ADD_ITEM',
+          payload: item
+        })
+      })
+    }).catch(e => console.error('Error adding item: ', e))
   }
+
 }

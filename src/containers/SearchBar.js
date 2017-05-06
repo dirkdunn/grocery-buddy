@@ -15,8 +15,9 @@ class SearchBar extends Component {
   addToList(e){
     e.preventDefault();
     this.props.toggleLoader();
-    this.props.addItem(this.state.search);
+    this.props.addItem(this.state.search,Date.now());
     this.setState({search: ""});
+    // this.props.getItems();
   }
 
   render(){
