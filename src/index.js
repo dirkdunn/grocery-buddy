@@ -11,6 +11,12 @@ import App from './App';
 import Login from './Login';
 import './css/index.css';
 
+window.devlog = function(){
+  if(/localhost/.test(location.origin)){
+    console.log.apply(this,[].slice.call(arguments))
+  }
+}
+
 const createStoreWithMiddleware = applyMiddleware(promiseMiddleware(),thunk)(createStore);
 
 ReactDOM.render(
