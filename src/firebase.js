@@ -10,8 +10,12 @@ const config = {
    projectId: "grocerylist-dev",
    storageBucket: "grocerylist-dev.appspot.com",
    messagingSenderId: "339055522328"
- };
+ };firebase.initializeApp(config);
 
- firebase.initializeApp(config);
+ const ref = firebase.database().ref('/'+ localStorage.getItem('uid_compare'));
+ const itemsRef = firebase.database().ref('/'+ localStorage.getItem('uid_compare') + '/items');
 
- export default firebase;
+
+ export{ firebase, ref, itemsRef };
+
+ // module.exports =  { firebase: firebase, ref: ref };

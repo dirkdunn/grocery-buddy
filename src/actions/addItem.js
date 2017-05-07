@@ -1,6 +1,6 @@
 import parseXML from 'xml-parse-from-string';
 import axios from 'axios';
-import firebase from '../firebase'
+import {firebase, itemsRef} from '../firebase'
 
 function getItemImage(query, callback){
   // window.devlog('query: ',query)
@@ -42,6 +42,7 @@ function addItem(item,key){
         let secret = photo.getAttribute('secret');
 
         // window.devlog('flickrImage:', getFlickrImage(farmid,serverid,id,secret))
+        window.devlog('key is: ', key)
 
         resolve({
             description: item,
@@ -62,12 +63,11 @@ export default function(query,key){
 
   return dispatch => {
     addItemPromise.then(item => {
-      const ref = firebase.database().ref('/'+ localStorage.getItem('uid_compare')+ '/items');
-      ref.once('value', db => {
+      itemsRef.once('value', db => {
         let keyVal = db.val() ? db.val().length : 0;
-        // window.devlog('children', keyVal)
+        window.devlog('children', keyVal)
 
-        ref.child(keyVal).set(item)
+        itemsRef.child(keyVal).set(item)
         dispatch({
           type: 'ADD_ITEM',
           payload: item

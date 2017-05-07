@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import firebase from '../firebase';
+import {firebase, ref} from '../firebase';
 import GroceryItem from './GroceryItem';
 import setItems from '../actions/setItems';
 import Loading from '../components/Loading';
@@ -11,7 +11,6 @@ import '../css/fa/css/font-awesome.css';
 class GroceryList extends Component {
   constructor(props){
     super(props)
-    this.ref = firebase.database().ref('/'+ localStorage.getItem('uid_compare'));
   }
 
   componentWillMount(){
@@ -20,7 +19,7 @@ class GroceryList extends Component {
 
   listenForGroceries(){
 
-    this.ref.on('value',(snapshot)=>{
+    ref.once('value',(snapshot)=>{
       const db = snapshot.val();
       // window.devlog('snapshot: ', snapshot.val());
       if(db != null){

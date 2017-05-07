@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import { Redirect, Route } from 'react-router';
 import _ from 'lodash';
-import firebase from './firebase';
+import {firebase} from './firebase';
 import App from './App';
 import Loading from './components/Loading';
 import './css/Login.css';
