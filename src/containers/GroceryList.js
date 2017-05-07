@@ -19,15 +19,17 @@ class GroceryList extends Component {
 
 
   listenForGroceries(){
-
-    ref.once('value',(snapshot) => {
+    const loadGroceries = (snapshot) => {
       const db = snapshot.val();
       window.devlog('snapshot: ', snapshot.val());
       if(db != null){
         // window.devlog("THIS.ITEMS", this.items, db.items)
         this.props.setItems(db.items);
       }
-    });
+    }
+
+
+    ref.on('value',loadGroceries);
     // ref.on('child_added',loadGroceries);
     // ref.on('child_removed',loadGroceries);
   }
