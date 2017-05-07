@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
-import {firebase, ref} from '../firebase';
+import {firebase, ref, itemsRef} from '../firebase';
 import GroceryItem from './GroceryItem';
 import setItems from '../actions/setItems';
 import Loading from '../components/Loading';
@@ -17,16 +17,19 @@ class GroceryList extends Component {
     this.listenForGroceries()
   }
 
+
   listenForGroceries(){
 
-    ref.once('value',(snapshot)=>{
+    ref.once('value',(snapshot) => {
       const db = snapshot.val();
-      // window.devlog('snapshot: ', snapshot.val());
+      window.devlog('snapshot: ', snapshot.val());
       if(db != null){
-        window.devlog("THIS.ITEMS", this.items, db.items)
+        // window.devlog("THIS.ITEMS", this.items, db.items)
         this.props.setItems(db.items);
       }
     });
+    // ref.on('child_added',loadGroceries);
+    // ref.on('child_removed',loadGroceries);
   }
 
   getGroceryItems(){
@@ -65,6 +68,7 @@ class GroceryList extends Component {
 }
 
 function mapStateToProps(state){
+  window.devlog('state.user.items ',state.user.items)
   return {
     items: state.user.items
   }

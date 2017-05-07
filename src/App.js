@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import GroceryList from './containers/GroceryList';
 import SearchBar from './containers/SearchBar';
-import firebase from './firebase'
+import {firebase} from './firebase'
 import Loading from './components/Loading';
 import {connect} from 'react-redux';
 import './css/App.css';

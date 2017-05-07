@@ -64,14 +64,16 @@ export default function(query,key){
   return dispatch => {
     addItemPromise.then(item => {
       itemsRef.once('value', db => {
-        let keyVal = db.val() ? db.val().length : 0;
-        window.devlog('children', keyVal)
 
-        itemsRef.child(keyVal).set(item)
+        let newItems = db.val();
+        newItems.unshift(item);
+        itemsRef.set(newItems);
+
         dispatch({
           type: 'ADD_ITEM',
           payload: item
-        })
+        });
+        
       })
     }).catch(e => console.error('Error adding item: ', e))
   }
