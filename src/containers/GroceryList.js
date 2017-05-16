@@ -17,7 +17,6 @@ class GroceryList extends Component {
     this.listenForGroceries()
   }
 
-
   listenForGroceries(){
     const loadGroceries = (snapshot) => {
       const db = snapshot.val();
@@ -28,7 +27,8 @@ class GroceryList extends Component {
       }
     }
 
-
+    // console.log('ref is: ', ref)
+    
     ref.on('value',loadGroceries);
     // ref.on('child_added',loadGroceries);
     // ref.on('child_removed',loadGroceries);

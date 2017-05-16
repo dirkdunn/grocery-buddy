@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import { Redirect, Route } from 'react-router';
 import _ from 'lodash';
 import {firebase} from './firebase';
-import App from './App';
 import Loading from './components/Loading';
 import './css/Login.css';
 import './css/fa/css/font-awesome.css';
@@ -90,7 +89,8 @@ class Login extends Component {
   handleRedirection(){
       const uid = JSON.parse(localStorage.getItem('user')).uid;
       localStorage.setItem('uid_compare', uid);
-      return(<Redirect test="test" to="/grocerylist" />)
+
+      return(<Redirect test="test" to="/lists" />)
   }
 
 

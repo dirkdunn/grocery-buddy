@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import GroceryList from './containers/GroceryList';
-import SearchBar from './containers/SearchBar';
-import {firebase} from './firebase'
-import Loading from './components/Loading';
+import GroceryList from './GroceryList';
+import SearchBar from './SearchBar';
+import {firebase} from '../firebase'
+import Loading from '../components/Loading';
 import {connect} from 'react-redux';
-import './css/App.css';
-import './css/fa/css/font-awesome.css';
+import '../css/App.css';
+import '../css/fa/css/font-awesome.css';
 
 /*
 Key: bac481b3714f9e9f3812760b07a97184

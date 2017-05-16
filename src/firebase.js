@@ -13,9 +13,9 @@ const config = {
  };firebase.initializeApp(config);
 
  const ref = firebase.database().ref('/'+ localStorage.getItem('uid_compare'));
- const itemsRef = firebase.database().ref('/'+ localStorage.getItem('uid_compare') + '/items');
+ const listRef = firebase.database().ref('/'+ localStorage.getItem('uid_compare') + '/lists/');
+ // const itemsRef = firebase.database().ref('/'+ localStorage.getItem('uid_compare') + '/lists/items');
 
-
- export{ firebase, ref, itemsRef };
+ export { firebase, ref };
 
  // module.exports =  { firebase: firebase, ref: ref };
