@@ -23,8 +23,8 @@ class App extends Component {
   }
 
   componentWillMount(){
-    window.devlog(this.state, this.props)
-    // window.devlog('uid: ',  this.props.location.state.uid)
+    console.log(this.state, this.props)
+    // console.log('uid: ',  this.props.location.state.uid)
     this.ensureLoggedIn()
   }
 
@@ -46,19 +46,19 @@ class App extends Component {
 
   signOut(){
     firebase.auth().signOut().then(function() {
-     window.devlog("Logged out!");
+     console.log("Logged out!");
      localStorage.removeItem('user');
      localStorage.removeItem('uid_compare');
 
      window.location.replace('/');
     }, function(error) {
-     window.devlog(error.code);
-     window.devlog(error.message);
+     console.log(error.code);
+     console.log(error.message);
     });
   }
 
   render() {
-    // window.devlog("LOADING: ", this.props.loading)
+    // console.log("LOADING: ", this.props.loading)
     return (
       <div className="container">
         <Loading show={this.props.loading} />
@@ -80,7 +80,7 @@ class App extends Component {
 }
 
 function mapStateToProps(state){
-  window.devlog('state is: ', state)
+  console.log('state is: ', state)
   return {
     loading: state.user.loading
   }

@@ -20,23 +20,21 @@ class GroceryList extends Component {
   listenForGroceries(){
     const loadGroceries = (snapshot) => {
       const db = snapshot.val();
-      window.devlog('snapshot: ', snapshot.val());
+      
+      console.log('snapshot: ', snapshot.val());
       if(db != null){
-        // window.devlog("THIS.ITEMS", this.items, db.items)
+        // console.log("THIS.ITEMS", this.items, db.items)
         this.props.setItems(db.items);
       }
     }
 
-    // console.log('ref is: ', ref)
-    
     ref.on('value',loadGroceries);
-    // ref.on('child_added',loadGroceries);
-    // ref.on('child_removed',loadGroceries);
+
   }
 
   getGroceryItems(){
     return this.props.items.map((item)=>{
-      window.devlog(item);
+      console.log(item);
       return (<GroceryItem key={item.key}
                 description={item.description}
                 keyParam={item.key}
@@ -70,7 +68,7 @@ class GroceryList extends Component {
 }
 
 function mapStateToProps(state){
-  window.devlog('state.user.items ',state.user.items)
+  console.log('state.user.items ',state.user.items)
   return {
     items: state.user.items
   }

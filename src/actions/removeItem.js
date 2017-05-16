@@ -6,7 +6,7 @@ export default function(key){
       ref.once('value', db => {
         const dbVal = db.val();
 
-        window.devlog('db is: ', dbVal)
+        console.log('db is: ', dbVal)
 
         if(dbVal){
           ref.set({

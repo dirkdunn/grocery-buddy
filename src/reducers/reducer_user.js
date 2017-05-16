@@ -21,9 +21,16 @@ export default function(state={},action){
       return { ...state, loading: !state.loading }
     break;
     case 'CREATE_LIST':
+      console.log('action.payload: ', action.payload, state.lists,[ action.payload, ...state.lists])
       return {
         ...state,
         lists: [ action.payload, ...state.lists]
+      }
+    break;
+    case 'SET_LISTS':
+      return {
+        ...state,
+        lists: action.payload
       }
     break;
     default:

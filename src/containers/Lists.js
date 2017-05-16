@@ -1,7 +1,9 @@
 import React, {Component} from 'react'
 import {connect} from 'react-redux'
 import addList from '../actions/addList'
+import setLists from '../actions/setLists'
 import {bindActionCreators} from 'redux'
+import {listRef} from '../firebase'
 
 class Lists extends Component {
   constructor(props){
@@ -13,10 +15,27 @@ class Lists extends Component {
     }
   }
 
+  componentWillMount(){
+    this.listenForLists();
+  }
+
+  listenForLists(){
+    const loadLists = (snapshot) => {
+      const db = snapshot.val();
+      console.log('Snapshot List: ', snapshot.val())
+
+      if(db != null){
+        this.props.setLists(snapshot.val())
+      }
+    }
+
+    listRef.once('value', loadLists)
+  }
+
   addList(e){
     e.preventDefault()
     if(this.state.listname.trim().length){
-      window.devlog('Inside the if', this.state.listname)
+      console.log('Inside the if', this.state.listname)
       this.props.addList(this.state.listname)
       this.setState({ listname: '' })
     }
@@ -24,8 +43,8 @@ class Lists extends Component {
 
   renderLists(){
     return this.props.lists.map(list => {
-      window.devlog('list: ', list)
-      return <li key={list.name}>{list.name}</li>
+      // console.log('list: ', list)
+      return <li>{list.name}</li>
     })
   }
 
@@ -60,12 +79,13 @@ class Lists extends Component {
 
 function mapDispatchToProps(dispatch){
   return bindActionCreators({
-    addList
+    addList: addList,
+    setLists: setLists
   },dispatch)
 }
 
 function mapStateToProps(state){
-  window.devlog('lists state: ', state)
+  console.log('lists state: ', state)
   return {
     lists: state.user.lists
   }

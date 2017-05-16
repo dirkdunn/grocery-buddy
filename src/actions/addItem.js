@@ -3,7 +3,7 @@ import axios from 'axios';
 import {firebase, itemsRef} from '../firebase'
 
 function getItemImage(query, callback){
-  // window.devlog('query: ',query)
+  // console.log('query: ',query)
   const flickrURL = 'https://api.flickr.com/services/rest/';
   axios.get(flickrURL,{
     params: {
@@ -31,7 +31,7 @@ function addItem(item,key){
   return new Promise(function(resolve,reject){
     getItemImage(item, response => {
       if(response){
-        // window.devlog('response: ',response);
+        // console.log('response: ',response);
 
         let randRange = parseXML(response).getElementsByTagName('photo').length / 2;
         let randomImage = Math.floor(Math.random() * 1);
@@ -41,8 +41,8 @@ function addItem(item,key){
         let id = photo.getAttribute('id');
         let secret = photo.getAttribute('secret');
 
-        // window.devlog('flickrImage:', getFlickrImage(farmid,serverid,id,secret))
-        window.devlog('key is: ', key)
+        // console.log('flickrImage:', getFlickrImage(farmid,serverid,id,secret))
+        console.log('key is: ', key)
 
         resolve({
             description: item,
@@ -73,7 +73,7 @@ export default function(query,key){
           type: 'ADD_ITEM',
           payload: item
         });
-        
+
       })
     }).catch(e => console.error('Error adding item: ', e))
   }
